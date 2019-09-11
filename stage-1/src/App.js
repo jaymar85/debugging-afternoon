@@ -17,8 +17,10 @@ class App extends Component {
     this.navigate = this.navigate.bind(this);
   }
   componentDidMount() {
-    axios.get("https://practiceapi.devmountain.com/products/").then(response => {
-      this.setState({products: response.data});
+    axios
+      .get("https://practiceapi.devmountain.com/products/")
+      .then(response => {
+        this.setState({products: response.data});
     });
   }
   addToCart(item) {
@@ -45,12 +47,22 @@ class App extends Component {
     }
   }
   render() {
-    const { products, showCart } = this.state;
+    const { products, showCart, cart } = this.state;
     return (
       <div className="App">
         <NavBar navigate={this.navigate} />
         <div className="main-container">
-          {showCart ? (<ShoppingCart cart={this.state.cart} />) : (<StoreFront products={products} />)}
+          {showCart ? (
+            <ShoppingCart 
+              cart={this.state.cart} 
+              removeFromCart={this.removeFromCart}
+            />
+          ) : (
+            <StoreFront 
+              products={products} 
+              addToCart={this.addToCart}
+            />
+          )}
         </div>
       </div>
     );
